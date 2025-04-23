@@ -10,6 +10,21 @@ const port = 3000;//the port you want to run the server on, will be referenced i
     port: 5432,//default port for postgres
     database: 'postgres'//the name of the database you want to connect to from postico
 })
+
+app.get('/api/staff', async (req, res) => {
+    const result = await client.query('SELECT * FROM staff');
+    res.json(result.rows);
+    // console.log(result.rows);
+})
+
+
+
+
+
+
+
+
+
 app.listen(port, async () => {
     await client.connect()//connect to the database
     console.log(`Example app listening on port ${port}`)
