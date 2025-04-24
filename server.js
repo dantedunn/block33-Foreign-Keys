@@ -3,13 +3,7 @@ const express = require('express');
 const app = express();
 const { Client } = pg
 const port = 3000;//the port you want to run the server on, will be referenced in url
-client.connect()
-  .then(() => {
-    console.log('Connected to the database');
-  })
-  .catch((err) => {
-    console.error('Connection error:', err.message);
-  });
+
 
 
  const client = new Client({
@@ -31,16 +25,12 @@ app.get('/api/employee', async (req, res) => {
     }
   });
 
-  
+
 app.get('/api/departments', async (req, res) => {
     const result = await client.query('SELECT * FROM departments');
     res.json(result.rows);
     console.log(result.rows);
 })
-
-app.post('/api/employee', async (req, res) => {
-
-
 
 
 
