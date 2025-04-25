@@ -7,7 +7,7 @@ app.use(express.json()) //middleware to parse json data
 
 const client = new Client({
   user: 'postgres', //the username you use to login to postico
-  password: 'shitbrick', //the password you use to login to postico
+  password: '', //the password you use to login to postico
   host: 'localhost',
   port: 5432, //default port for postgres
   database: 'postgres' //the name of the database you want to connect to from postico
