@@ -7,7 +7,7 @@ app.use(express.json()) //middleware to parse json data
 
 const client = new Client({
   user: 'postgres', //the username you use to login to postico
-  password: '', //the password you use to login to postico
+  password: 'shitbrick', //the password you use to login to postico
   host: 'localhost',
   port: 5432, //default port for postgres
   database: 'postgres' //the name of the database you want to connect to from postico
@@ -38,45 +38,38 @@ app.post('/api/employee', async (req, res) => {
   )
   res.json(result.rows)
   console.log(result.rows)
-});
+})
 
 app.delete('/api/employee/:id', async (req, res) => {
-    const { id } = req.params;
-    await client.query('DELETE FROM employee WHERE id = $1', [id]);
-    res.json('success');
-});
+  const { id } = req.params
+  await client.query('DELETE FROM employee WHERE id = $1', [id])
+  res.json('success')
+})
 
 app.put('/api/employee/:id', async (req, res) => {
-    const { name, created_at, updated_at, department_id } = req.body;
-    const { id } = req.params;
-  
-    try {
-      const result = await client.query(
-        `UPDATE employee 
+  const { name, created_at, updated_at, department_id } = req.body
+  const { id } = req.params
+
+  try {
+    const result = await client.query(
+      `UPDATE employee 
          SET name = $1, created_at = $2, updated_at = $3, department_id = $4 
          WHERE id = $5 
          RETURNING *`,
-        [name, created_at, updated_at, department_id, id]
-      );
-  
-      if (result.rowCount === 0) {
-        return res.status(404).send('Employee not found');
-      }
-  
-      res.json(result.rows[0]);
-      console.log(result.rows[0]);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error updating employee');
+      [name, created_at, updated_at, department_id, id]
+    )
+
+    if (result.rowCount === 0) {
+      return res.status(404).send('Employee not found')
     }
-  });
-  
 
-
-
-
-
-
+    res.json(result.rows[0])
+    console.log(result.rows[0])
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Error updating employee')
+  }
+})
 
 app.listen(port, async () => {
   await client.connect() //connect to the database
